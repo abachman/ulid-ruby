@@ -34,8 +34,12 @@ describe ULID do
     end
 
     it 'returns same time that was used to generate it' do
-      # NOTE: we may not get the PRECISE time out due to conversion from Time -> Float -> Base32 -> Float -> Time
-      expect(ulid_time).to be_within(0.0001).of(KNOWN_TIME)
+      # NOTE: we may not get the PRECISE time out due to conversion from
+      # Time -> Float -> Base32 -> Float -> Time
+      #
+      # It's not immediately clear to me whether that's a function of Ruby
+      # or of the format.
+      expect(ulid_time).to be_within(0.001).of(KNOWN_TIME)
     end
   end
 
@@ -66,7 +70,7 @@ describe ULID do
   end
 
   describe ULID::Identifier do
-    context 'with no args' do
+    context 'with no initialization value' do
       it 'generates a random value for the current time' do
         right_now = Time.now
         ulid = ULID::Identifier.new
@@ -74,6 +78,98 @@ describe ULID do
         expect(ulid.ulid).to be_instance_of(String)
         expect(ulid.ulid).to be_a_valid_ulid
         expect(ulid.time).to be_within(0.0001).of(right_now)
+      end
+    end
+
+    context 'with Time' do
+      it 'generates a ULID for that time' do
+        right_now = Time.now
+        ulid = ULID::Identifier.new(right_now)
+
+        expect(ulid.ulid).to be_instance_of(String)
+        expect(ulid.ulid).to be_a_valid_ulid
+        expect(ulid.time).to be_within(0.00001).of(right_now)
+      end
+    end
+
+    context 'with ULID::Instance' do
+      it 'generates the same ULID' do
+        first = ULID::Identifier.new
+        other = ULID::Identifier.new(first)
+
+        expect(other.ulid).to eq(first.ulid)
+        expect(other.time).to eq(first.time)
+        expect(other.seed).to eq(first.seed)
+        expect(other.bytes).to eq(first.bytes)
+      end
+    end
+
+    context 'with ULID string arg' do
+      it 'generates to same ULID' do
+        first = ULID::Identifier.new
+        other = ULID::Identifier.new(first.ulid)
+
+        expect(other.ulid).to eq(first.ulid)
+        expect(other.seed).to eq(first.seed)
+        expect(other.bytes).to eq(first.bytes)
+
+        # same caveat as "returns the same time" note above
+        expect(other.time).to be_within(0.0001).of(first.time)
+      end
+
+      it 'generates with lowercase alphabet' do
+        first = ULID::Identifier.new KNOWN_STRING
+        other = ULID::Identifier.new KNOWN_STRING.downcase
+
+        expect(other.ulid).to eq(first.ulid)
+        expect(other.seed).to eq(first.seed)
+        expect(other.bytes).to eq(first.bytes)
+        expect(other.time).to eq(first.time)
+      end
+    end
+
+    describe 'compared to other ULIDs' do
+      let(:at_time) { Time.now }
+      let(:first) { ULID::Identifier.new(at_time - 5) }
+      let(:last) { ULID::Identifier.new(at_time) }
+
+      it 'is sortable with <' do
+        expect(first).to be < last
+        expect(first).to be < last.ulid
+        expect(first).to be < last.time
+      end
+
+      it 'is sortable with >' do
+        expect(last).to be > first
+        expect(last).to be > first.ulid
+        expect(last).to be > first.time
+      end
+
+      it 'is sortable in a list' do
+        reverse = [last, first]
+        expect(reverse[0]).not_to be(first)
+        expect(reverse.sort[0]).to be(first)
+      end
+
+      it 'sorts the same as strings' do
+        # get reverse list of ULID instances
+        reverse = [last, first]
+
+        # ... and reversed list of ULID strings
+        ulids = [last.ulid, first.ulid]
+
+        ulids.each {|u|
+          expect(u).to be_instance_of(String)
+          expect(u).to be_a_valid_ulid
+        }
+
+        # compare both when sorted
+        ulids_sorted = reverse.sort.map(&:ulid)
+        strings_sorted = ulids.sort
+
+        ulids_sorted.zip(strings_sorted).each do |(a, b)|
+          expect(a).to eq(b)
+        end
       end
     end
   end

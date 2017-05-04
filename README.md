@@ -15,6 +15,40 @@ A ULID is a "Universally Unique Lexicographically-sortable Identifier." This is 
 
 **NOTE:** while the ULID values generated are compatible with the existing Ruby ULID library located at https://github.com/rafaelsales/ulid, this library is not code-compatible. I needed some additional features for a project and it was easier to just rebuild the functionality. May not be useful for anyone else but it's working for us in production at https://io.adafruit.com.
 
+In its string representation, it's a compact, URL-friendly, Base32, unique ID string that encodes its time of creation and sorts according the time value it encodes.
+
+A ULID string looks like this:
+
+```ruby
+require 'ulid'
+ULID.generate #=> "0DHWZV7PGEAFYDYH04X7Y468GQ"
+```
+
+## Short Explanation
+
+The two parts of a ULID are **Timestamp** and **Entropy**.
+
+     0DHWZV7PGE      AFYDYH04X7Y468GQ
+    |----------|    |----------------|
+     Timestamp            Entropy
+       48bits             80bits
+
+### Timestamp
+
+- Encoded in first 48 bits of ULID. In Base32 it's the first 10 ASCII characters.
+- UNIX-time with a precision of milliseconds.
+- Won't run out of space till the year 10895 AD.
+
+### Entropy
+
+- Encoded in last 80 bits of ULID. In Base32 it's the last 16 ASCII characters.
+- Should use cryptographically secure source of randomness (this library uses the Ruby Standard Library's `SecureRandom` class)
+- Unlikely to duplicate even with millions of IDs at the same millisecond
+
+### Sorting
+
+The left-most character must be sorted first, and the right-most character sorted last (lexical order). The default ASCII character set must be used. Within the same millisecond, sort order is not guaranteed.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -37,10 +71,6 @@ And require from your project with:
 require 'rubygems'
 require 'ulid'
 ```
-
-## Usage
-
-TODO: Write usage instructions here
 
 ## Development
 

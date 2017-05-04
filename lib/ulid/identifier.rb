@@ -12,11 +12,13 @@ module ULID
 
     # Create a new instance of a ULID::Identifier.
     #
-    # @param start [String, Time, or nil]
+    # @param start [ULID::Instance, String, Time, or nil] if ULID instance or
+    #   string is given, initialize to the exact same value. If Time is given,
+    #   generate a new ULID for that time, if no argument is given, generate a
+    #   new ULID at the current system time.
     # @param seed [String or nil] a 10-byte, Encoding::ASCII_8BIT encoded string.
     #   The easiest way to generate a seed is to call SecureRandom.random_bytes(10)
-    #
-    # @returns [ULID::Identifier]
+    # @return [ULID::Identifier]
     def initialize(start = nil, seed = nil)
       case start
       when self.class
@@ -28,23 +30,22 @@ module ULID
           @seed = random_bytes
         else
           if seed.size != 10 || seed.encoding != Encoding::ASCII_8BIT
-            raise "seed error, seed value must be 10 bytes encoded as Encoding::ASCII_8BIT"
+            raise ArgumentError.new("seed error, seed value must be 10 bytes encoded as Encoding::ASCII_8BIT")
           end
           @seed = seed
         end
       when String
         if start.size != 26
-          raise "invalid ULID, must be 26 characters"
+          raise ArgumentError.new("invalid ULID string, must be 26 characters")
         end
 
         # parse string into bytes
-        @ulid = start
+        @ulid = start.upcase
         @bytes = decode(@ulid)
 
         @time, @seed = unpack_decoded_bytes(@bytes)
       else
         # unrecognized initial values type given, just generate fresh ULID
-
         @time = Time.now.utc
         @seed = random_bytes
       end

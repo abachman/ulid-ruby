@@ -1,11 +1,13 @@
 module ULID
   module Constants
-    RANDOM_BYTES = 10
-
+    # smallest representable time
     MIN_TIME = ([0] * 6).pack('C' * 6)
+    # largest representable time
     MAX_TIME = ([255] * 6).pack('C' * 6)
 
+    # smallest possible seed value
     MIN_ENTROPY = ([0] * 10).pack('C' * 10)
+    # largest possible seed value
     MAX_ENTROPY = ([255] * 10).pack('C' * 10)
 
     # Crockford's Base32. Alphabet portion is missing I, L, O, and U.
