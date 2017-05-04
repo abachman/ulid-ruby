@@ -1,15 +1,26 @@
-# Ulid::Ruby
+<h1 align="center">
+    <br>
+    <br>
+    <img width="360" src="logo.png" alt="ulid">
+    <br>
+    <br>
+    <br>
+</h1>
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ulid/ruby`. To experiment with that code, run `bin/console` for an interactive prompt.
+## -- unofficial --
 
-TODO: Delete this and the text above, and describe your gem
+# ULID
+
+A ULID is a "Universally Unique Lexicographically-sortable Identifier." This is a thin Ruby library for generating and parsing ULID values. This code is based on the original concept presented at https://github.com/alizain/ulid and in part based on code from the C# and Go projects at https://github.com/RobThree/NUlid and https://github.com/oklog/ulid  respectively.
+
+**NOTE:** while the ULID values generated are compatible with the existing Ruby ULID library located at https://github.com/rafaelsales/ulid, this library is not code-compatible. I needed some additional features for a project and it was easier to just rebuild the functionality. May not be useful for anyone else but it's working for us in production at https://io.adafruit.com.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'ulid-ruby'
+gem 'ulid-ruby', require: 'ulid'
 ```
 
 And then execute:
@@ -19,6 +30,13 @@ And then execute:
 Or install it yourself as:
 
     $ gem install ulid-ruby
+
+And require from your project with:
+
+```ruby
+require 'rubygems'
+require 'ulid'
+```
 
 ## Usage
 

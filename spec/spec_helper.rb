@@ -1,5 +1,7 @@
 require "bundler/setup"
-require "ulid/ruby"
+require "ulid"
+
+require_relative './matchers/ulid_format'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -9,3 +11,4 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
