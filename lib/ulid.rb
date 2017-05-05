@@ -19,8 +19,8 @@ module ULID
   # @example Generate a ULID
   #   ULID.new #=> #<ULID::Identifier:0x007f83f90aecc0 ....>
   #
-  def self.new
-    Identifier.new
+  def self.new(*args)
+    Identifier.new(*args)
   end
 
   # Get a new, randomized ULID string at the current time.

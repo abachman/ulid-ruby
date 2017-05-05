@@ -73,7 +73,7 @@ describe ULID do
     context 'with no initialization value' do
       it 'generates a random value for the current time' do
         right_now = Time.now
-        ulid = ULID::Identifier.new
+        ulid = ULID.new
 
         expect(ulid.ulid).to be_instance_of(String)
         expect(ulid.ulid).to be_a_valid_ulid
@@ -84,7 +84,7 @@ describe ULID do
     context 'with Time' do
       it 'generates a ULID for that time' do
         right_now = Time.now
-        ulid = ULID::Identifier.new(right_now)
+        ulid = ULID.new(right_now)
 
         expect(ulid.ulid).to be_instance_of(String)
         expect(ulid.ulid).to be_a_valid_ulid
@@ -94,8 +94,8 @@ describe ULID do
 
     context 'with ULID::Instance' do
       it 'generates the same ULID' do
-        first = ULID::Identifier.new
-        other = ULID::Identifier.new(first)
+        first = ULID.new
+        other = ULID.new(first)
 
         expect(other.ulid).to eq(first.ulid)
         expect(other.time).to eq(first.time)
@@ -106,8 +106,8 @@ describe ULID do
 
     context 'with ULID string arg' do
       it 'generates to same ULID' do
-        first = ULID::Identifier.new
-        other = ULID::Identifier.new(first.ulid)
+        first = ULID.new
+        other = ULID.new(first.ulid)
 
         expect(other.ulid).to eq(first.ulid)
         expect(other.seed).to eq(first.seed)
@@ -118,8 +118,8 @@ describe ULID do
       end
 
       it 'generates with lowercase alphabet' do
-        first = ULID::Identifier.new KNOWN_STRING
-        other = ULID::Identifier.new KNOWN_STRING.downcase
+        first = ULID.new KNOWN_STRING
+        other = ULID.new KNOWN_STRING.downcase
 
         expect(other.ulid).to eq(first.ulid)
         expect(other.seed).to eq(first.seed)
@@ -130,8 +130,8 @@ describe ULID do
 
     describe 'compared to other ULIDs' do
       let(:at_time) { Time.now }
-      let(:first) { ULID::Identifier.new(at_time - 5) }
-      let(:last) { ULID::Identifier.new(at_time) }
+      let(:first) { ULID.new(at_time - 5) }
+      let(:last) { ULID.new(at_time) }
 
       it 'is sortable with <' do
         expect(first).to be < last
