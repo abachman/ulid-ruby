@@ -6,11 +6,16 @@ require 'ulid/version'
 Gem::Specification.new do |spec|
   spec.name          = "ulid-ruby"
   spec.version       = ULID::VERSION
-  spec.authors       = ["adam bachman"]
+  spec.authors       = ["Adam Bachman"]
   spec.email         = ["adam.bachman@gmail.com"]
 
-  spec.summary       = %q{ruby library providing support for universally unique lexicographically sortable identifiers}
-  spec.description   = %q{todo: write a longer description or delete this line.}
+  spec.summary       = %q{Ruby library providing support for Universally unique Lexicographically sortable IDentifiers}
+  spec.description   = %q{
+    Ruby library providing support for Universally unique Lexicographically
+    Sortable Identifiers. ULIDs are helpful in systems where you need to
+    generate ID values that are absolutely lexicographically sortable by time,
+    regardless of where they were generated.
+  }
   spec.homepage      = "https://github.com/abachman/ulid-ruby"
   spec.license       = "mit"
 

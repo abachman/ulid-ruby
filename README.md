@@ -11,11 +11,13 @@
 
 # ULID
 
-A ULID is a "Universally Unique Lexicographically-sortable Identifier." This is a thin Ruby library for generating and parsing ULID values. This code is based on the original concept presented at https://github.com/alizain/ulid and in part based on code from the C# and Go projects at https://github.com/RobThree/NUlid and https://github.com/oklog/ulid  respectively.
+A ULID is a "Universally Unique Lexicographically-sortable Identifier." In its string form, a ULID is a compact, URL-friendly, Base32, unique ID string that encodes its time of creation and sorts according the time value it encodes. [Crockford's Base32](https://en.wikipedia.org/wiki/Base32#Crockford.27s_Base32) alphabet is used in encoding because it's easy to sort, unambiguous in its choice of letters, and like most Base32 encoding schemes is case-insensitive.
 
-**NOTE:** while the ULID values generated are compatible with the existing Ruby ULID library located at https://github.com/rafaelsales/ulid, this library is not code-compatible. I needed some additional features for a project and it was easier to just rebuild the functionality. May not be useful for anyone else but it's working for us in production at https://io.adafruit.com.
 
-In its string representation, it's a compact, URL-friendly, Base32, unique ID string that encodes its time of creation and sorts according the time value it encodes.
+This is a thin Ruby library for generating and parsing ULID values. This code is based on the original concept presented at https://github.com/alizain/ulid and in part based on code from the C# and Go projects at https://github.com/RobThree/NUlid and https://github.com/oklog/ulid respectively.
+
+**NOTE:** while the ULID values generated are compatible with the existing Ruby ULID library located at https://github.com/rafaelsales/ulid, this library is not code-compatible and it provides additinal features. While working on Adafruit IO, we needed to generate time-based, lexicographically sortable IDs _and_ we needed to be able to get the time value back out. At one point we used Cassandra and its native Time UUID type, but that didn't translate well to DynamoDB and its use of sort keys. ULIDs were found to be an acceptable choice and it was easier to just rebuild the existing functionality of [rafaelsales/ulid](https://github.com/rafaelsales/ulid) while adding parsing. This tool may not be useful for anyone else but it's working for us in production at https://io.adafruit.com.
+
 
 A ULID string looks like this:
 
@@ -32,6 +34,7 @@ The two parts of a ULID are **Timestamp** and **Entropy**.
     |----------|    |----------------|
      Timestamp            Entropy
        48bits             80bits
+
 
 ### Timestamp
 
