@@ -60,12 +60,24 @@ module ULID
       SecureRandom.random_bytes(10)
     end
 
-    def hundred_micro_time
-      (@time.to_f * 10_000).to_i
+    def millisecond_time
+      (@time.to_f * 1_000).to_i
     end
 
-    def time_48bit
-      [hundred_micro_time].pack("Q>")[2..-1]
+    # THIS IS CORRECT (to the ULID spec)
+    def time_bytes
+      id = []
+
+      t = millisecond_time
+
+      id << [t >> 40].pack('c')
+      id << [t >> 32].pack('c')
+      id << [t >> 24].pack('c')
+      id << [t >> 16].pack('c')
+      id << [t >> 8].pack('c')
+      id << [t].pack('c')
+
+      id.join
     end
   end
 end

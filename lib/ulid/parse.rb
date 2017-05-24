@@ -39,13 +39,18 @@ module ULID
     end
 
     def unpack_decoded_bytes(packed_bytes)
-      time_bytes = packed_bytes[0..5]
+      time_bytes = packed_bytes[0..5].bytes.map(&:to_i)
       seed = packed_bytes[6..-1]
 
       # and unpack it immedieately into the original milliseconds timestamp
-      time_int = ("\x00\x00" + time_bytes).unpack('Q>')[0]
+      time_int = time_bytes[5].to_i |
+        (time_bytes[4].to_i << 8) |
+        (time_bytes[3].to_i << 16) |
+        (time_bytes[2].to_i << 24) |
+        (time_bytes[1].to_i << 32) |
+        (time_bytes[0].to_i << 40)
 
-      [ Time.at( time_int / 10_000.0 ).utc, seed ]
+      [ Time.at( time_int * 0.001 ).utc, seed ]
     end
 
   end

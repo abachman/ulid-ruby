@@ -52,7 +52,7 @@ module ULID
 
       if @bytes.nil?
         # an ASCII_8BIT encoded string, should be 16 bytes
-        @bytes = time_48bit + @seed
+        @bytes = time_bytes + @seed
       end
 
       if @ulid.nil?

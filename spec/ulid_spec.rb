@@ -4,8 +4,8 @@ require "spec_helper"
 #               --------------------------
 #               0DHWZ1DT60
 #                         60ZVCSJFXBTG0J2N
-KNOWN_STRING = '0DHWZ1DT6060ZVCSJFXBTG0J2N'
-KNOWN_TIME = Time.parse("2017-03-30T15:21:57.318Z")
+KNOWN_STRING = '01ARYZ6RR0T8CNRGXPSBZSA1PY'
+KNOWN_TIME = Time.parse('2016-07-30 22:36:16 UTC')
 
 describe ULID do
   it "has a version number" do
@@ -77,7 +77,7 @@ describe ULID do
 
         expect(ulid.ulid).to be_instance_of(String)
         expect(ulid.ulid).to be_a_valid_ulid
-        expect(ulid.time).to be_within(0.0001).of(right_now)
+        expect(ulid.time).to be_within(0.001).of(right_now)
       end
     end
 
@@ -88,7 +88,7 @@ describe ULID do
 
         expect(ulid.ulid).to be_instance_of(String)
         expect(ulid.ulid).to be_a_valid_ulid
-        expect(ulid.time).to be_within(0.00001).of(right_now)
+        expect(ulid.time).to be_within(0.001).of(right_now)
       end
     end
 
@@ -114,7 +114,7 @@ describe ULID do
         expect(other.bytes).to eq(first.bytes)
 
         # same caveat as "returns the same time" note above
-        expect(other.time).to be_within(0.0001).of(first.time)
+        expect(other.time).to be_within(0.001).of(first.time)
       end
 
       it 'generates with lowercase alphabet' do
