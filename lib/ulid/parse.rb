@@ -43,6 +43,7 @@ module ULID
       seed = packed_bytes[6..-1]
 
       # and unpack it immedieately into the original milliseconds timestamp
+      # via https://github.com/oklog/ulid/blob/c3c01856f7e43fa64133819126887124d5f05e39/ulid.go#L265
       time_int = time_bytes[5].to_i |
         (time_bytes[4].to_i << 8) |
         (time_bytes[3].to_i << 16) |

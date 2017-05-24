@@ -70,6 +70,7 @@ module ULID
 
       t = millisecond_time
 
+      # via https://github.com/oklog/ulid/blob/c3c01856f7e43fa64133819126887124d5f05e39/ulid.go#L295
       id << [t >> 40].pack('c')
       id << [t >> 32].pack('c')
       id << [t >> 24].pack('c')
