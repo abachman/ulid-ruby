@@ -88,8 +88,12 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/abachman/ulid-ruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
-
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
+## Changes
+
+#### 1.0.0
+
+- fixes incorrect string packing / unpacking which caused incompatible ULID generation and parsing. This is a critical bug and any ULIDs generated with version < 1.0.0 will sort incorrectly.
