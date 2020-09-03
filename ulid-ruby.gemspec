@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
     regardless of where they were generated.
   }
   spec.homepage      = "https://github.com/abachman/ulid-ruby"
-  spec.license       = "mit"
+  spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
