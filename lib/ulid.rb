@@ -40,7 +40,7 @@ module ULID
   # @return [String] new ULID string encoding the given time
   #
   # @example Generate a ULID string for a given time
-  #   ULID.at(Time.at(1_000_000)) #=> 0009A0QS00SGEFTGMFFEAS6B9A
+  #   ULID.at(Time.at(1_000_000)) #=> 0000XSNJG0H890HQE70THPQ3D3
   #
   def self.at(at_time)
     Identifier.new(at_time).ulid
@@ -52,7 +52,7 @@ module ULID
   # @return [Time] UTC time value encoded by the ULID
   #
   # @example Parse a ULID string and get a time value
-  #   ULID.time '0009A0QS00SGEFTGMFFEAS6B9A' #=> 1970-01-12 13:46:40 UTC
+  #   ULID.time '0009A0QS00SGEFTGMFFEAS6B9A' #=> 1970-04-26 17:46:40 UTC
   #
   def self.time(ulid)
     Identifier.new(ulid).time.utc
@@ -64,7 +64,7 @@ module ULID
   # @return [String] the lexicographically minimum ULID value for the given time
   #
   # @example Get minimal ULID at time
-  #   ULID.min_ulid_at Time.at(1_000_000) #=> "0009A0QS000000000000000000"
+  #   ULID.min_ulid_at Time.at(1_000_000) #=> "0000XSNJG00000000000000000"
   #
   def self.min_ulid_at(at_time)
     Identifier.new(at_time, MIN_ENTROPY).ulid
@@ -76,7 +76,7 @@ module ULID
   # @return [String] the lexicographically maximum ULID value for the given time
   #
   # @example Get minimal ULID at time
-  #   ULID.max_ulid_at Time.at(1_000_000) #=> "0009A0QS00ZZZZZZZZZZZZZZZZ"
+  #   ULID.max_ulid_at Time.at(1_000_000) #=> "0000XSNJG0ZZZZZZZZZZZZZZZZ"
   #
   def self.max_ulid_at(at_time)
     Identifier.new(at_time, MAX_ENTROPY).ulid
