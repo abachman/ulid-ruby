@@ -34,12 +34,13 @@ describe ULID do
     end
 
     it 'returns same time that was used to generate it' do
-      # NOTE: we may not get the PRECISE time out due to conversion from
-      # Time -> Float -> Base32 -> Float -> Time
-      #
-      # It's not immediately clear to me whether that's a function of Ruby
-      # or of the format.
-      expect(ulid_time).to be_within(0.001).of(KNOWN_TIME)
+      expect(ulid_time).to eq(KNOWN_TIME)
+    end
+
+    it 'handles timestamp as the milliseconds precision' do
+      time = ULID.time('0A000000000000000000000000')
+      expect(time.to_i).to eq(10995116277)
+      expect(time.nsec).to eq(760000000)
     end
   end
 
