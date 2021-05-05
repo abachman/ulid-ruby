@@ -24,6 +24,12 @@ describe ULID do
       expect(ULID.at(KNOWN_TIME)).to be_a_valid_ulid
     end
 
+    it 'handles timestamp as the milliseconds precision' do
+      expect(ULID.at(Time.parse('2016-07-30 22:36:16.001000000 UTC'))).to start_with('01ARYZ6RR1')
+      expect(ULID.at(Time.parse('2016-07-30 22:36:16.002000000 UTC'))).to start_with('01ARYZ6RR2')
+      expect(ULID.at(Time.parse('2016-07-30 22:36:16.003000000 UTC'))).to start_with('01ARYZ6RR3')
+    end
+
   end
 
   describe '.time' do

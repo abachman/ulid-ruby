@@ -61,7 +61,7 @@ module ULID
     end
 
     def millisecond_time
-      (@time.to_f * 1_000).to_i
+      (@time.to_r * 1_000).to_i
     end
 
     # THIS IS CORRECT (to the ULID spec)
