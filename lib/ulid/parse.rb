@@ -51,7 +51,7 @@ module ULID
         (time_bytes[1].to_i << 32) |
         (time_bytes[0].to_i << 40)
 
-      [ Time.at( time_int * 0.001 ).utc, seed ]
+      [ Time.at( time_int * 1/1000r ).utc, seed ]
     end
 
   end
