@@ -94,6 +94,11 @@ The gem is available as open source under the terms of the [MIT License](http://
 
 ## Changes
 
+#### 1.0.2
+
+- handle floating point precision issue described in https://github.com/abachman/ulid-ruby/pull/4 and https://github.com/abachman/ulid-ruby/pull/5
+- update development dependencies: Ruby to 3.1.0, bundler to > 2
+
 #### 1.0.0
 
 - fixes incorrect string packing / unpacking which caused incompatible ULID generation and parsing. This is a critical bug and any ULIDs generated with version < 1.0.0 will sort incorrectly.
