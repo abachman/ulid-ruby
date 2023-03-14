@@ -15,7 +15,7 @@ module ULID
 
     # Byte to index table for O(1) lookups when unmarshaling.
     # We rely on nil as sentinel value for invalid indexes.
-    B32REF = Hash[ ENCODING.split('').each_with_index.to_a ]
+    B32REF = ENCODING.split('').each_with_index.to_h
   end
 end
 
