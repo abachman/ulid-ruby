@@ -12,10 +12,10 @@ module ULID
 
     # Crockford's Base32. Alphabet portion is missing I, L, O, and U.
     ENCODING = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
-
+    ENCODING_LIST = ENCODING.split('')
     # Byte to index table for O(1) lookups when unmarshaling.
     # We rely on nil as sentinel value for invalid indexes.
-    B32REF = Hash[ ENCODING.split('').each_with_index.to_a ]
+    B32REF = Hash[ ENCODING_LIST.each_with_index.to_a ]
   end
 end
 
