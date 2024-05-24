@@ -1,13 +1,14 @@
+# frozen_string_literal: true
 
-require 'time'
-require 'securerandom'
+require "time"
+require "securerandom"
 
-require 'ulid/version'
-require 'ulid/constants'
-require 'ulid/identifier'
-require 'ulid/generate'
-require 'ulid/parse'
-require 'ulid/compare'
+require "ulid/version"
+require "ulid/constants"
+require "ulid/identifier"
+require "ulid/generate"
+require "ulid/parse"
+require "ulid/compare"
 
 module ULID
   include Constants
@@ -81,6 +82,4 @@ module ULID
   def self.max_ulid_at(at_time)
     Identifier.new(at_time, MAX_ENTROPY).ulid
   end
-
 end
-

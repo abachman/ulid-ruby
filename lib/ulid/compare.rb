@@ -1,35 +1,37 @@
+# frozen_string_literal: true
+
 module ULID
   module Compare
     def >(other)
       case other
       when self.class
-        self.ulid > other.ulid
+        ulid > other.ulid
       when Time
-        self.time > other
+        time > other
       when String
-        self.ulid > other
+        ulid > other
       end
     end
 
     def <(other)
       case other
       when self.class
-        self.ulid < other.ulid
+        ulid < other.ulid
       when Time
-        self.time < other
+        time < other
       when String
-        self.ulid < other
+        ulid < other
       end
     end
 
     def <=>(other)
       case other
       when self.class
-        self.ulid <=> other.ulid
+        ulid <=> other.ulid
       when Time
-        self.time <=> other
+        time <=> other
       when String
-        self.ulid <=> other
+        ulid <=> other
       end
     end
   end

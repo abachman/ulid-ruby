@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'securerandom'
-require 'ulid/constants'
+require "securerandom"
+require "ulid/constants"
 
 module ULID
   module Generate
@@ -24,11 +24,11 @@ module ULID
 
     # returns the binary uint128 in base16 UUID format
     def encode16
-      self.bytes.unpack("H8H4H4H4H*").join("-")
+      bytes.unpack("H8H4H4H4H*").join("-")
     end
 
     def encode10
-      (hi, lo) = self.bytes.unpack('Q>Q>')
+      (hi, lo) = bytes.unpack("Q>Q>")
       (hi << 64) | lo
     end
 

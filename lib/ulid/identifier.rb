@@ -1,6 +1,8 @@
-require 'ulid/parse'
-require 'ulid/generate'
-require 'ulid/compare'
+# frozen_string_literal: true
+
+require "ulid/parse"
+require "ulid/generate"
+require "ulid/compare"
 
 module ULID
   class Identifier
@@ -25,13 +27,14 @@ module ULID
         @time = start.time
         @seed = start.seed
       when NilClass, Time
-        @time = (start || Time.now).utc
-        if seed == nil
+        @time = start || Time.now
+        if seed.nil?
           @seed = random_bytes
         else
           if seed.size != 10 || seed.encoding != Encoding::ASCII_8BIT
-            raise ArgumentError.new("seed error, seed value must be 10 bytes encoded as Encoding::ASCII_8BIT")
+            raise ArgumentError, "seed error, seed value must be 10 bytes encoded as Encoding::ASCII_8BIT"
           end
+
           @seed = seed
         end
       when String
@@ -47,24 +50,24 @@ module ULID
           # parse UUID string into bytes
           @bytes = decode16(start)
         else
-          raise ArgumentError.new("invalid ULID or UUID string - must be 16, 26, or 36 characters")
+          raise ArgumentError, "invalid ULID or UUID string - must be 16, 26, or 36 characters"
         end
 
-        raise ArgumentError.new("invalid ULID or UUID") if @bytes.size != 16
+        raise ArgumentError, "invalid ULID or UUID" if @bytes.size != 16
 
         @time, @seed = unpack_decoded_bytes(@bytes)
       when Integer
         # parse integer (BigNum) into bytes
         @bytes = decode10(start)
 
-        raise ArgumentError.new("invalid ULID or UUID") if @bytes.size != 16
+        raise ArgumentError, "invalid ULID or UUID" if @bytes.size != 16
 
         @time, @seed = unpack_decoded_bytes(@bytes)
       when Array
         # parse Array(16) into bytes
         @bytes = start.pack("C*")
 
-        raise ArgumentError.new("invalid Byte Array") if @bytes.size != 16
+        raise ArgumentError, "invalid Byte Array" if @bytes.size != 16
 
         @time, @seed = unpack_ulid_bytes(@bytes)
       else

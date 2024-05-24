@@ -3,14 +3,14 @@
 module ULID
   module Constants
     # smallest representable time
-    MIN_TIME = ([0] * 6).pack('C' * 6)
+    MIN_TIME = ([0] * 6).pack("C" * 6)
     # largest representable time
-    MAX_TIME = ([255] * 6).pack('C' * 6)
+    MAX_TIME = ([255] * 6).pack("C" * 6)
 
     # smallest possible seed value
-    MIN_ENTROPY = ([0] * 10).pack('C' * 10)
+    MIN_ENTROPY = ([0] * 10).pack("C" * 10)
     # largest possible seed value
-    MAX_ENTROPY = ([255] * 10).pack('C' * 10)
+    MAX_ENTROPY = ([255] * 10).pack("C" * 10)
 
     # Crockford's Base32 (https://www.crockford.com/base32.html) Differs from Base32 in the following ways:
     # * Excludes I, L, O and U
