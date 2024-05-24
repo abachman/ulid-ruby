@@ -41,9 +41,9 @@ module ULID
 
         # parse string into bytes
         @ulid = start.upcase
-        @bytes = decode(@ulid)
+        @bytes = decode32(@ulid)
 
-        @time, @seed = unpack_decoded_bytes(@bytes)
+        @time, @seed = unpack_ulid_bytes(@bytes)
       else
         # unrecognized initial values type given, just generate fresh ULID
         @time = Time.now.utc
