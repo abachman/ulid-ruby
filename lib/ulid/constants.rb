@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ULID
   module Constants
     # smallest representable time
@@ -10,12 +12,19 @@ module ULID
     # largest possible seed value
     MAX_ENTROPY = ([255] * 10).pack('C' * 10)
 
-    # Crockford's Base32. Alphabet portion is missing I, L, O, and U.
-    ENCODING = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
+    # Crockford's Base32 (https://www.crockford.com/base32.html) Differs from Base32 in the following ways:
+    # * Excludes I, L, O and U
+    # * Aliases O to 0
+    # * Aliases I and L to 1
+    # * Uses U * ~ $ and = for appended checksums
+    #
+    # For simplicity, we use the RFC4648 Base32 encoding and convert to Crockford's Base32 with a simple translate
+    # However, we aren't supporting checksums nor the aliased characters
+    #
+    # B32_CROCKFORD_CHARS = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
+    # B32_RCF4648_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUV"
 
-    # Byte to index table for O(1) lookups when unmarshaling.
-    # We rely on nil as sentinel value for invalid indexes.
-    B32REF = Hash[ ENCODING.split('').each_with_index.to_a ]
+    B32_CROCKFORD_FRAGMENT = "JKMNPQRSTVWXYZ".upcase.freeze
+    B32_RCF4648_FRAGMENT = "IJKLMNOPQRSTUV".downcase.freeze # forcing downcase becase .to_s(32) is always lowercase
   end
 end
-

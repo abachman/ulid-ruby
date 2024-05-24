@@ -42,7 +42,7 @@ module ULID
         when 26
           # parse ULID string into bytes
           @ulid = start.upcase
-          @bytes = decode(@ulid)
+          @bytes = decode32(@ulid)
         when 36
           # parse UUID string into bytes
           @bytes = decode16(start)
@@ -66,7 +66,7 @@ module ULID
 
         raise ArgumentError.new("invalid Byte Array") if @bytes.size != 16
 
-        @time, @seed = unpack_decoded_bytes(@bytes)
+        @time, @seed = unpack_ulid_bytes(@bytes)
       else
         # unrecognized initial values type given, just generate fresh ULID
         @time = Time.now.utc
