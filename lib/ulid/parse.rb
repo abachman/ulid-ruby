@@ -13,6 +13,14 @@ module ULID
       [value >> 64, value & 0xFFFFFFFFFFFFFFFF].pack("Q>Q>")
     end
 
+    def decode16(input)
+      [input.delete("-")].pack("H*")
+    end
+
+    def decode10(input)
+      [input >> 64, input & 0xFFFFFFFFFFFFFFFF].pack("Q>Q>")
+    end
+
     def unpack_ulid_bytes(packed_bytes)
       time_int, _ = ("\x00\x00" + packed_bytes).unpack("Q>")
       seed = packed_bytes[6..-1]
