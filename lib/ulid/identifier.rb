@@ -52,14 +52,14 @@ module ULID
 
         raise ArgumentError.new("invalid ULID or UUID") if @bytes.size != 16
 
-        @time, @seed = unpack_decoded_bytes(@bytes)
+        @time, @seed = unpack_ulid_bytes(@bytes)
       when Integer
         # parse integer (BigNum) into bytes
         @bytes = decode10(start)
 
         raise ArgumentError.new("invalid ULID or UUID") if @bytes.size != 16
 
-        @time, @seed = unpack_decoded_bytes(@bytes)
+        @time, @seed = unpack_ulid_bytes(@bytes)
       when Array
         # parse Array(16) into bytes
         @bytes = start.pack("C*")
