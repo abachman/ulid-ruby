@@ -14,7 +14,7 @@ module ULID
 
       id = @bytes.bytes
 
-      output = ''
+      output = +''
 
       # Base32 encodes 5 bits of each byte of the input in each byte of the
       # output. That means each input byte produces >1 output byte and some
