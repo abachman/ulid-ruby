@@ -25,7 +25,7 @@ module ULID
         @time = start.time
         @seed = start.seed
       when NilClass, Time
-        @time = (start || Time.now).utc
+        @time = (start || Time.now)
         if seed == nil
           @seed = random_bytes
         else
@@ -69,7 +69,7 @@ module ULID
         @time, @seed = unpack_ulid_bytes(@bytes)
       else
         # unrecognized initial values type given, just generate fresh ULID
-        @time = Time.now.utc
+        @time = Time.now
         @seed = random_bytes
       end
 

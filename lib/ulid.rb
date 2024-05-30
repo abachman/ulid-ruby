@@ -55,7 +55,7 @@ module ULID
   #   ULID.time '0009A0QS00SGEFTGMFFEAS6B9A' #=> 1970-04-26 17:46:40 UTC
   #
   def self.time(ulid)
-    Identifier.new(ulid).time.utc
+    Identifier.new(ulid).time
   end
 
   # Get the first possible ULID string for the given time in sort order ascending.
@@ -83,4 +83,3 @@ module ULID
   end
 
 end
-
