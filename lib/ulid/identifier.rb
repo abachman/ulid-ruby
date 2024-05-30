@@ -8,7 +8,7 @@ module ULID
     include Generate
     include Compare
 
-    attr_reader :seed, :bytes, :time, :ulid
+    attr_reader :seed, :bytes, :time
 
     # Create a new instance of a ULID::Identifier.
     #
@@ -35,15 +35,38 @@ module ULID
           @seed = seed
         end
       when String
-        if start.size != 26
-          raise ArgumentError.new("invalid ULID string, must be 26 characters")
+        case start.size
+        when 16
+          # assume byte form of ULID (Should be Encoding::ASCII_8BIT)
+          @bytes = start.b
+        when 26
+          # parse ULID string into bytes
+          @ulid = start.upcase
+          @bytes = decode(@ulid)
+        when 36
+          # parse UUID string into bytes
+          @bytes = decode16(start)
+        else
+          raise ArgumentError.new("invalid ULID or UUID string - must be 16, 26, or 36 characters")
         end
 
-        # parse string into bytes
-        @ulid = start.upcase
-        @bytes = decode(@ulid)
+        raise ArgumentError.new("invalid ULID or UUID") if @bytes.size != 16
 
-        @time, @seed = unpack_decoded_bytes(@bytes)
+        @time, @seed = unpack_ulid_bytes(@bytes)
+      when Integer
+        # parse integer (BigNum) into bytes
+        @bytes = decode10(start)
+
+        raise ArgumentError.new("invalid ULID or UUID") if @bytes.size != 16
+
+        @time, @seed = unpack_ulid_bytes(@bytes)
+      when Array
+        # parse Array(16) into bytes
+        @bytes = start.pack("C*")
+
+        raise ArgumentError.new("invalid Byte Array") if @bytes.size != 16
+
+        @time, @seed = unpack_ulid_bytes(@bytes)
       else
         # unrecognized initial values type given, just generate fresh ULID
         @time = Time.now.utc
@@ -54,11 +77,25 @@ module ULID
         # an ASCII_8BIT encoded string, should be 16 bytes
         @bytes = time_bytes + @seed
       end
-
-      if @ulid.nil?
-        # the lexically sortable Base32 string we actually care about
-        @ulid = encode32
-      end
     end
+
+    def ulid
+        # the lexically sortable Base32 string we actually care about
+      @ulid ||= encode32
+    end
+
+    def to_uuid
+      @uuid ||= encode16
+    end
+
+    def to_i
+      @int128 ||= encode10
+    end
+
+    alias_method :to_s, :ulid
+    alias_method :to_str, :ulid
+    alias_method :inspect, :ulid
+    alias_method :b, :bytes
+
   end
 end

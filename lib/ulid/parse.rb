@@ -38,7 +38,15 @@ module ULID
       out
     end
 
-    def unpack_decoded_bytes(packed_bytes)
+    def decode16(input)
+      [input.delete("-")].pack("H*")
+    end
+
+    def decode10(input)
+      [input >> 64, input & 0xFFFFFFFFFFFFFFFF].pack("Q>Q>")
+    end
+
+    def unpack_ulid_bytes(packed_bytes)
       time_bytes = packed_bytes[0..5].bytes.map(&:to_i)
       seed = packed_bytes[6..-1]
 
