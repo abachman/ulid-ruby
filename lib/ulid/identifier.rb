@@ -84,13 +84,19 @@ module ULID
       @ulid ||= encode32
     end
 
-    def uuid
+    def to_uuid
       @uuid ||= encode16
     end
 
-    def int128
+    def to_i
       @int128 ||= encode10
     end
+
+    alias_method :to_s, :ulid
+    alias_method :to_str, :ulid
+    alias_method :b, :bytes
+    alias_method :to_int, :to_i
+    alias_method :to_a, :bytes.bytes
 
   end
 end

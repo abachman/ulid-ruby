@@ -81,10 +81,10 @@ describe ULID do
     end
   end
 
-  describe '.uuid' do
+  describe '.to_uuid' do
     it 'generates a valid UUID' do
       ulid = ULID.new KNOWN_STRING
-      expect(ulid.uuid).to eq(KNOWN_UUID)
+      expect(ulid.to_uuid).to eq(KNOWN_UUID)
     end
   end
 
@@ -196,7 +196,7 @@ describe ULID do
 
       it 'supports UUID self generated' do
         first = ULID.new
-        other = ULID.new first.uuid
+        other = ULID.new first.to_uuid
 
         expect(other.ulid).to eq(first.ulid)
         expect(other.seed).to eq(first.seed)
@@ -208,7 +208,7 @@ describe ULID do
     context 'with uInt128 arg' do
       it 'supports BigNum' do
         first = ULID.new
-        other = ULID.new first.int128
+        other = ULID.new first.to_i
 
         expect(other.ulid).to eq(first.ulid)
         expect(other.seed).to eq(first.seed)
