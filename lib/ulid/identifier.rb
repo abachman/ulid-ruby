@@ -52,21 +52,21 @@ module ULID
 
         raise ArgumentError.new("invalid ULID or UUID") if @bytes.size != 16
 
-        @time, @seed = unpack_decoded_bytes(@bytes)
+        @time, @seed = unpack_ulid_bytes(@bytes)
       when Integer
         # parse integer (BigNum) into bytes
         @bytes = decode10(start)
 
         raise ArgumentError.new("invalid ULID or UUID") if @bytes.size != 16
 
-        @time, @seed = unpack_decoded_bytes(@bytes)
+        @time, @seed = unpack_ulid_bytes(@bytes)
       when Array
         # parse Array(16) into bytes
         @bytes = start.pack("C*")
 
         raise ArgumentError.new("invalid Byte Array") if @bytes.size != 16
 
-        @time, @seed = unpack_decoded_bytes(@bytes)
+        @time, @seed = unpack_ulid_bytes(@bytes)
       else
         # unrecognized initial values type given, just generate fresh ULID
         @time = Time.now.utc
@@ -84,13 +84,18 @@ module ULID
       @ulid ||= encode32
     end
 
-    def uuid
+    def to_uuid
       @uuid ||= encode16
     end
 
-    def int128
+    def to_i
       @int128 ||= encode10
     end
+
+    alias_method :to_s, :ulid
+    alias_method :to_str, :ulid
+    alias_method :inspect, :ulid
+    alias_method :b, :bytes
 
   end
 end
