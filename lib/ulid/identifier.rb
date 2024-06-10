@@ -69,7 +69,7 @@ module ULID
         @time, @seed = unpack_ulid_bytes(@bytes)
       else
         # unrecognized initial values type given, just generate fresh ULID
-        @time = Time.now.utc
+        @time = Time.now
         @seed = random_bytes
       end
 
