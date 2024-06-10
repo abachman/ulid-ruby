@@ -9,8 +9,9 @@ module ULID
 
     # returns the binary ULID as Base32 encoded string.
     def encode32
-      (hi, lo) = bytes.unpack("Q>Q>")
-      value = (hi << 64) | lo
+      high = bytes.unpack1("Q>")
+      low = bytes.unpack1("@8Q>")
+      value = (high << 64) | low
 
       # use the RFC4648 Base32 encoding and convert to Crockford's Base32 with a simple translate
       # assumes that the value is a 128-bit integer
@@ -19,7 +20,7 @@ module ULID
       b32.tr!(B32_RCF4648_FRAGMENT, B32_CROCKFORD_FRAGMENT)
       b32.upcase!
 
-      return "0" + b32 if b32.length == 25
+      return "0#{b32}" if b32.length == 25
 
       b32
     end

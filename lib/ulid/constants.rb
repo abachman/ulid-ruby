@@ -24,7 +24,7 @@ module ULID
     # B32_CROCKFORD_CHARS = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
     # B32_RCF4648_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUV"
 
-    B32_CROCKFORD_FRAGMENT = "JKMNPQRSTVWXYZ".upcase.freeze
-    B32_RCF4648_FRAGMENT = "IJKLMNOPQRSTUV".downcase.freeze # forcing downcase becase .to_s(32) is always lowercase
+    B32_CROCKFORD_FRAGMENT = "JKMNPQRSTVWXYZ"
+    B32_RCF4648_FRAGMENT = "ijklmnopqrstuv" # downcase because .to_s(32) is always lowercase
   end
 end

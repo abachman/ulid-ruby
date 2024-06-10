@@ -22,7 +22,7 @@ module ULID
     end
 
     def unpack_ulid_bytes(packed_bytes)
-      time_int, _ = ("\x00\x00" + packed_bytes).unpack("Q>")
+      time_int = ("\x00\x00#{packed_bytes}").unpack1("Q>")
       seed = packed_bytes[6..-1]
 
       [Time.at(time_int.to_f / 1000.0), seed]
