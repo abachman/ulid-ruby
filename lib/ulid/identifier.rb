@@ -25,13 +25,14 @@ module ULID
         @time = start.time
         @seed = start.seed
       when NilClass, Time
-        @time = (start || Time.now).utc
-        if seed == nil
+        @time = start || Time.now
+        if seed.nil?
           @seed = random_bytes
         else
           if seed.size != 10 || seed.encoding != Encoding::ASCII_8BIT
             raise ArgumentError.new("seed error, seed value must be 10 bytes encoded as Encoding::ASCII_8BIT")
           end
+
           @seed = seed
         end
       when String
@@ -41,12 +42,12 @@ module ULID
 
         # parse string into bytes
         @ulid = start.upcase
-        @bytes = decode(@ulid)
+        @bytes = decode32(@ulid)
 
         @time, @seed = unpack_decoded_bytes(@bytes)
       else
         # unrecognized initial values type given, just generate fresh ULID
-        @time = Time.now.utc
+        @time = Time.now
         @seed = random_bytes
       end
 
