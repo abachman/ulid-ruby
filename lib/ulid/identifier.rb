@@ -92,11 +92,14 @@ module ULID
       @int128 ||= encode10
     end
 
+    def to_a
+      bytes.bytes
+    end
+
     alias_method :to_s, :ulid
     alias_method :to_str, :ulid
     alias_method :b, :bytes
     alias_method :to_int, :to_i
-    alias_method :to_a, :bytes.bytes
 
   end
 end
